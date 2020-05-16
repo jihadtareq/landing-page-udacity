@@ -19,9 +19,10 @@
 */
 const navbar = document.querySelector('#navbar__list');
 const sections =Array.from(document.getElementsByTagName('section'));
-let containerCount = document.getElementsByClassName("landing__container")
-  .length;
+//let containerCount = document.getElementsByClassName("landing__container").length;
 //const title = document.querySelector('#main__hero');
+let text = navbar.childNodes[0];
+console.log(text);
 /**
  * End Global Variables
  * Start Helper Functions
@@ -62,20 +63,27 @@ function activeSection(){
             (window.innerWidth || document.documentElement.clientWidth)
         );
       };
-    
-      for (i = 1; i < containerCount + 1; i++) {
-        let sectionInFullView = document.getElementById("section" + i);
-        sections.forEach(section => section.classList.remove('your-active-class'));
+      
         window.addEventListener("scroll",function(event) {
-            if (isInViewport(sectionInFullView)) {
-              sectionInFullView.classList.add("active");
-            } else {
-              sectionInFullView.classList.remove("active");
-            }
+          sections.forEach(section => section.classList.remove('your-active-class'));
+          if (isInViewport(text)) {
+            navbar.childNodes[0].classList.add('active');
+            navbar.childNodes.forEach((navLink,index) =>
+              index && navLink.classList.remove('active'));
+          } else {
+            const activeIndex = sections.findIndex(section => isInViewport(section.childNodes[1].childNodes));
+            //console.log(activeIndex);
+            const activeSection = sections[activeIndex];
+            const activeLink = navbar.childNodes[activeIndex + 1];
+           // console.log(activeIndex);
+            activeSection && activeSection.classList.add('your-active-class');
+            activeLink && activeLink.classList.add('active');
+            navbar.childNodes.forEach((navLink, index) =>
+              index !== (activeIndex + 1) && navLink.classList.remove('active'));
+          }
           },
           false
         );
-      }
 }
 
 
