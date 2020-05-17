@@ -24,20 +24,13 @@ const sections = Array.from(document.getElementsByTagName('section'));
  * End Global Variables
  * Start Helper Functions
  *
- *  @param element:check if the element is in viewport
+ *  @param elem:check if the element is in viewport
  */
 let isInViewport = function (elem) {
   let bounding = elem.getBoundingClientRect();
-  console.log('======bounding Bottom==============================');
-  console.log(bounding.bottom);
-  console.log('====================================');
-  console.log('======bounding TOP==============================');
-  console.log(bounding.top);
-  console.log('====================================');
-  console.log('======window.innerHeight==============================');
-  console.log(window.innerHeight);
-  console.log('====================================');
   return (
+      bounding.bottom >= 0 &&
+      bounding.left >= 0 &&
       bounding.top <=
           (window.innerHeight || document.documentElement.clientHeight) &&
       bounding.right <=
@@ -64,6 +57,7 @@ function createsection() {
 }
 
 // Add class 'active' to section when near top of viewport
+let activeSectionIndex = 0;
 
 function activeSection() {
 
@@ -71,7 +65,6 @@ function activeSection() {
 			sections.forEach((section) =>
 				section.classList.remove('your-active-class')
             );
-            let activeSectionIndex = 0 
             for (let index = 0; index < sections.length; index++) {
                 const section = sections[index];
                 let isSectionInViewport = isInViewport(section)
@@ -90,10 +83,6 @@ function activeSection() {
             if (activeSectionIndex != 0 ) {
                 navbar.childNodes[activeSectionIndex].classList.add('active');
                 sections[activeSectionIndex-1].classList.add('your-active-class');
-                console.log('====================================');
-                console.log(navbar.childNodes[activeSectionIndex]);
-                console.log('====================================');
-                console.log(sections[activeSectionIndex-1]);
             }
 		},
 		false
@@ -106,7 +95,7 @@ function scrollToSection() {
 	navbar.addEventListener('click', function (evt) {
 		//evt.target is the element that was clicked
 		const target = document.querySelector('#' + evt.target.dataset.nav);
-		target.scrollIntoView({ behavior: 'smooth', block: 'end' });
+		target.scrollIntoView({ behavior: 'smooth'});
 	});
 }
 
