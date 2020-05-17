@@ -95,6 +95,16 @@ section {
     transition: ease 0.3s all;
 }
 
+@media(max-width:374px){
+    .navbar__menu ul {
+       display: block;
+    }
+
+    .navbar__menu .menu__link {
+        padding:4px;
+    }
+}
+
 
 /* Header Styles */
 .page__header {
